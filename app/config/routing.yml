@@ -1,3 +1,7 @@
+practohealth_byte:
+    resource: "@practohealthByteBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
