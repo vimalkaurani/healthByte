@@ -1,13 +1,14 @@
 <?php
 
 namespace practo\healthByteBundle\Controller;
-
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('practohealthByteBundle:Default:index.html.twig', array('name' => $name));
+        return (array("arr"=>'rahul'));
+
     }
 }

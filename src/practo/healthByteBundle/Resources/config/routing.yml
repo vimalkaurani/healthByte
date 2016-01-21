@@ -1,3 +1,7 @@
 practohealth_byte_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: practohealthByteBundle:Default:index }
+    type: rest
+    resource : "@practohealthByteBundle/Controller/DefaultController.php"
+
+practohealth_byte_user:
+    type: rest
+    resource : "@practohealthByteBundle/Controller/UserController.php"
