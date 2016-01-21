@@ -35,6 +35,7 @@ class UserController extends BasehealthByteController
 
     public function patchUserAction($id, Request $request){
         $urlParams = $request->request->all();
+        //var_dump($urlParams);die;
         $data = $this->get('fit.user_manager')->patchUserObject($id, $urlParams);
 
         return $data;
