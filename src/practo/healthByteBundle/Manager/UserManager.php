@@ -57,13 +57,13 @@ class UserManager extends BaseManager
         if (null === $user) {
             throw new \Exception('user with this id does not exist');
         }
-        $user->setName($urlParams['name']);
-        $user->setEmail($urlParams['email']);
-        /*foreach($urlParams as $key => $val) {
-            //$param = ucfirst(strtolower($key));
-            //$methodName = 'set'.$param;
-            $user->setName($urlParams[$key]);
-        }*/
+        /*$user->setName($urlParams['name']);
+        $user->setEmail($urlParams['email']);*/
+        foreach($urlParams as $key => $val) {
+            $param = ucfirst(strtolower($key));
+            $methodName = 'set'.$param;
+            $user->$methodName($urlParams[$key]);
+        }
         $this->helper->persist($user, true);
 
         $id = $user->getId();
