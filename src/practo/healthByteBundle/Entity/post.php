@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * post
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="practo\healthByteBundle\Entity\postRepository")
+ * @ORM\Table(name="post")
+ * @ORM\Entity
  */
 class post
 {
@@ -181,7 +181,7 @@ class post
      */
     public function setDatePublished($datePublished)
     {
-        $this->datePublished = $datePublished;
+        $this->datePublished = new \DateTime($datePublished);
 
         return $this;
     }
@@ -204,7 +204,7 @@ class post
      */
     public function setDateWritten($dateWritten)
     {
-        $this->dateWritten = $dateWritten;
+        $this->dateWritten = new \DateTime($dateWritten);
 
         return $this;
     }

@@ -20,7 +20,7 @@ class UserManager extends BaseManager
      *
      * @return mixed
      */
-    public function userObject($urlParams = null)
+    public function getUserObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
         $qb = $em->createQueryBuilder();
@@ -38,7 +38,7 @@ class UserManager extends BaseManager
     }
 
     public function addUserObject($urlParams = null){
-        /*$user = new user();
+        $user = new user();
         $user->setEmail($urlParams['email']);
         $user->setName($urlParams['name']);
         $this->helper->persist($user, true);
@@ -46,7 +46,7 @@ class UserManager extends BaseManager
         $id = $user->getId();
         $this->helper->flush();
         #print_r($id);
-        return $this->userObject(array('id'=>$id));*/
+        return $this->getUserObject(array('id'=>$id));
     }
 
     public function patchUserObject($id, $urlParams = null){
@@ -69,7 +69,21 @@ class UserManager extends BaseManager
         $id = $user->getId();
         $this->helper->flush();
         #print_r($id);
-        return $this->userObject(array('id'=>$id));
+        return $this->getUserObject(array('id'=>$id));
+    }
+
+    public function deleteUserObject($id){
+        $em = $this->helper->getEntitiesManager();
+        $qb = $em->createQueryBuilder();
+        $qb->delete()
+            ->from('practohealthByteBundle:User', 'u');
+
+
+            $qb->andWhere('u.id =' .$id);
+
+
+
+        $qb->getQuery()->getArrayResult();
     }
 
 }

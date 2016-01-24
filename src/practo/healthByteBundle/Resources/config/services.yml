@@ -16,3 +16,9 @@ services:
         class:  practo\healthByteBundle\Manager\UserManager
         calls:
                - [setHelper, ["@fit.helper"]]
+
+    fit.post_manager:
+            class:  practo\healthByteBundle\Manager\PostManager
+            calls:
+                   - [setHelper, ["@fit.helper"]]
+

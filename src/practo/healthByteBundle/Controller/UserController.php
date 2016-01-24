@@ -20,7 +20,7 @@ class UserController extends BasehealthByteController
     {
         $urlParams = $request->query->all();
 
-        $data = $this->get('fit.user_manager')->userObject($urlParams);
+        $data = $this->get('fit.user_manager')->getUserObject($urlParams);
 
         return $data;
 
@@ -40,4 +40,14 @@ class UserController extends BasehealthByteController
         return $data;
 
     }
+
+    public function deleteUserAction($id, Request $request){
+        $urlParams = $request->query->all();
+        $data = $this->get('fit.user_manager')->deleteUserObject($id);
+
+
+        return $data;
+    }
+
+
 }

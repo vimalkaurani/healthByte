@@ -5,3 +5,7 @@ practohealth_byte_homepage:
 practohealth_byte_user:
     type: rest
     resource : "@practohealthByteBundle/Controller/UserController.php"
+
+practohealth_byte_post:
+    type: rest
+    resource : "@practohealthByteBundle/Controller/PostController.php"
