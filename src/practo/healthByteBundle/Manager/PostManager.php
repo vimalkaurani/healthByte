@@ -34,15 +34,11 @@ class PostManager extends BaseManager
 
     public function addPostObject($urlParams = null){
         $post = new post();
-        /*$post->setContent($urlParams['content']) ;
-        $post->setTitle($urlParams['title']);
-        $post->setImgurl($urlParams['imgurl']);*/
 
         foreach($urlParams as $key => $val) {
             $param = ucfirst($key);
             $methodName = 'set'.$param;
             $post->$methodName($urlParams[$key]);
-       //     echo $methodName, $urlParams[$key] ;
 
         }
 
@@ -57,15 +53,12 @@ class PostManager extends BaseManager
     public function patchPostObject($id, $urlParams = null){
 
         $post = $this->helper->loadById($id, 'practohealthByteBundle:post');
-        #var_dump($user);
-        //echo "<pre>"; print_r($user); die;
         if (null === $post) {
             throw new \Exception('post with this id does not exist');
         }
-        /*$user->setName($urlParams['name']);
-        $user->setEmail($urlParams['email']);*/
+
         foreach($urlParams as $key => $val) {
-            $param = ucfirst(strtolower($key));
+            $param = ucfirst($key);
             $methodName = 'set'.$param;
             $post->$methodName($urlParams[$key]);
         }
@@ -79,8 +72,8 @@ class PostManager extends BaseManager
         $em = $this->helper->getEntitiesManager();
         $qb = $em->createQueryBuilder();
         $qb->delete()
-            ->from('practohealthByteBundle:post', 'u');
-        $qb->andWhere('u.id =' .$id);
+            ->from('practohealthByteBundle:post', 'p');
+        $qb->andWhere('p.id =' .$id);
         $qb->getQuery()->getArrayResult();
     }
 }

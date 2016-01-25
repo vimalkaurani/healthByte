@@ -35,10 +35,10 @@ class PostController extends BasehealthByteController
         return $data;
     }
 
-    public function deletePostAction($id, Request $request){
+    public function deletePostAction($id){
 
-        $urlParams = $request->query->all();
-        $data = $this->get('fit.post_manager')->deletePostObject($id, $urlParams);
+
+        $data = $this->get('fit.post_manager')->deletePostObject($id);
         return $data;
     }
 }

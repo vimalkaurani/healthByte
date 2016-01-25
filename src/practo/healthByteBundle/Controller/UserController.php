@@ -41,8 +41,8 @@ class UserController extends BasehealthByteController
 
     }
 
-    public function deleteUserAction($id, Request $request){
-        $urlParams = $request->query->all();
+    public function deleteUserAction($id){
+
         $data = $this->get('fit.user_manager')->deleteUserObject($id);
 
 

@@ -45,20 +45,17 @@ class UserManager extends BaseManager
 
         $id = $user->getId();
         $this->helper->flush();
-        #print_r($id);
+
         return $this->getUserObject(array('id'=>$id));
     }
 
     public function patchUserObject($id, $urlParams = null){
 
         $user = $this->helper->loadById($id, 'practohealthByteBundle:User');
-        #var_dump($user);
-        //echo "<pre>"; print_r($user); die;
+
         if (null === $user) {
             throw new \Exception('user with this id does not exist');
         }
-        /*$user->setName($urlParams['name']);
-        $user->setEmail($urlParams['email']);*/
         foreach($urlParams as $key => $val) {
             $param = ucfirst(strtolower($key));
             $methodName = 'set'.$param;
@@ -77,12 +74,7 @@ class UserManager extends BaseManager
         $qb = $em->createQueryBuilder();
         $qb->delete()
             ->from('practohealthByteBundle:User', 'u');
-
-
-            $qb->andWhere('u.id =' .$id);
-
-
-
+        $qb->andWhere('u.id =' .$id);
         $qb->getQuery()->getArrayResult();
     }
 
