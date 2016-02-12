@@ -15,9 +15,18 @@ use practo\healthByteBundle\Controller\BasehealthByteController;
 
 class PostController extends BasehealthByteController
 {
-    public function getPostAction(Request $request){
+    public function getPostsAction(Request $request){
 
         $urlParams = $request->query->all();
+        $data = $this->get('fit.post_manager')->getPostObject($urlParams);
+        //var_dump($data);
+        return $data;
+    }
+
+    public function getPostAction($id, Request $request){
+
+        $urlParams = $request->query->all();
+        $urlParams['id'] = $id;
         $data = $this->get('fit.post_manager')->getPostObject($urlParams);
         return $data;
     }

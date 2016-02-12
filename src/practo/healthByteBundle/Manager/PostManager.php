@@ -8,12 +8,19 @@
 
 namespace practo\healthByteBundle\Manager;
 
-
 use practo\healthByteBundle\Entity\post;
 
 class PostManager extends BaseManager
 {
 
+
+    function tokenTruncate($string, $width) {
+        
+        return substr($string,0,$width).'...';
+        }
+
+    
+    
 
     public function getPostObject($urlParams = null)
     {
@@ -22,12 +29,35 @@ class PostManager extends BaseManager
         $qb->select('u')
             ->from('practohealthByteBundle:post', 'u');
 
+        $inArray = array('id');
+        $likeArray = array('title');
         foreach($urlParams as $key => $val) {
-            $qb->andWhere('u.'.$key.' LIKE :'.$key);
-            $qb ->setParameter($key, '%'.$val.'%');
+            if(in_array($key, $inArray)) {
+                
+
+                $qb->andWhere('u.'.$key.' IN (:'.$key.')');
+                $qb ->setParameter($key, $val);
+            } elseif (in_array($key, $likeArray)) {
+                $qb->andWhere('u.'.$key.' LIKE :'.$key);
+                $qb ->setParameter($key, '%'.$val.'%');
+            }
+
+            
+
         }
+       $qb->orderBy('u.dateWritten', 'DESC');
 
         $data = $qb->getQuery()->getArrayResult();
+
+         foreach ($data as $key => $value) {
+            if(strlen($value['content']) > 80){
+                $data[$key]['exp']= $this->tokenTruncate($value['content'],80);
+            }
+        
+             else {
+                 $data[$key]['exp']=$value['content'];
+             }
+         }
 
         return $data;
     }
@@ -38,15 +68,17 @@ class PostManager extends BaseManager
         foreach($urlParams as $key => $val) {
             $param = ucfirst($key);
             $methodName = 'set'.$param;
-            $post->$methodName($urlParams[$key]);
-
+            if($urlParams[$key] != null && $urlParams[$key] != ''){
+                $post->$methodName($urlParams[$key]);
+            }
+            else {
+                return array('error_message' => 'something is wrong');
+            }
         }
-
         $this->helper->persist($post, true);
-
         $id = $post->getId();
         $this->helper->flush();
-        print_r($id);
+        //print_r($id);
         return $this->getPostObject(array('id'=>$id));
     }
 
