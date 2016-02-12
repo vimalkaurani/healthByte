@@ -70,6 +70,13 @@ class post
      */
     private $publishedDraft;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="soft_deleted", type="integer")
+     */
+    private $softDeleted;
+
 
     /**
      * Get id
@@ -90,6 +97,29 @@ class post
     public function setUserid($userid)
     {
         $this->userid = $userid;
+
+        return $this;
+    }
+
+    /**
+     * Get softDeleted
+     *
+     * @return integer 
+     */
+    public function getSoftDeleted()
+    {
+        return $this->softDeleted;
+    }
+
+    /**
+     * Set softDeleted
+     *
+     * @param integer $softDeleted
+     * @return post
+     */
+    public function setSoftDeleted($softDeleted)
+    {
+        $this->softDeleted = $softDeleted;
 
         return $this;
     }
