@@ -18,6 +18,7 @@ class PostController extends BasehealthByteController
     public function getPostsAction(Request $request){
 
         $urlParams = $request->query->all();
+        
         $data = $this->get('fit.post_manager')->getPostObject($urlParams);
         //var_dump($data);
         return $data;

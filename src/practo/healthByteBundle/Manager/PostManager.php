@@ -19,9 +19,6 @@ class PostManager extends BaseManager
         return substr($string,0,$width).'...';
         }
 
-    
-    
-
     public function getPostObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
@@ -30,7 +27,7 @@ class PostManager extends BaseManager
             ->from('practohealthByteBundle:post', 'u');
 
         $inArray = array('id');
-        $likeArray = array('title');
+        $likeArray = array('title','publishedDraft');
         foreach($urlParams as $key => $val) {
             if(in_array($key, $inArray)) {
                 
@@ -40,27 +37,49 @@ class PostManager extends BaseManager
             } elseif (in_array($key, $likeArray)) {
                 $qb->andWhere('u.'.$key.' LIKE :'.$key);
                 $qb ->setParameter($key, '%'.$val.'%');
-            }
-
+            } 
             
 
         }
-       $qb->orderBy('u.dateWritten', 'DESC');
+        if(array_key_exists('deleted', $urlParams) && $urlParams['deleted'] == 'true') {
+            $qb-> andWhere('u.softDeleted = 1');
+        } elseif(!array_key_exists('id', $urlParams)) {
+            $qb-> andWhere('u.softDeleted = 0');
+        } 
+
+        $qb->orderBy('u.dateWritten', 'DESC');
+        if(array_key_exists('pageno', $urlParams)){
+           $qb->setMaxResults(10);
+            $qb->setFirstResult(10 * ($urlParams['pageno']-1));
+        }
+
 
         $data = $qb->getQuery()->getArrayResult();
 
          foreach ($data as $key => $value) {
-            if(strlen($value['content']) > 80){
-                $data[$key]['exp']= $this->tokenTruncate($value['content'],80);
+            if(strlen($value['content']) > 50){
+
+                $data[$key]['exp']= $this->tokenTruncate($value['content'],50);
             }
         
              else {
                  $data[$key]['exp']=$value['content'];
              }
+
+            if(strlen($value['title']) > 50){
+                
+                $data[$key]['ttl']= $this->tokenTruncate($value['title'],50);
+            }
+        
+             else {
+                 $data[$key]['ttl']=$value['title'];
+             }
          }
 
         return $data;
     }
+
+    
 
     public function addPostObject($urlParams = null){
         $post = new post();
@@ -101,11 +120,16 @@ class PostManager extends BaseManager
         return $this->getPostObject(array('id'=>$id));
     }
     public function deletePostObject($id){
-        $em = $this->helper->getEntitiesManager();
-        $qb = $em->createQueryBuilder();
-        $qb->delete()
-            ->from('practohealthByteBundle:post', 'p');
-        $qb->andWhere('p.id =' .$id);
-        $qb->getQuery()->getArrayResult();
+            $post = $this->helper->loadById($id, 'practohealthByteBundle:post');
+            $post->setSoftDeleted(1);
+            $this->helper->persist($post, true);
+            $this->helper->flush();
+
+        // $em = $this->helper->getEntitiesManager();
+        // $qb = $em->createQueryBuilder();
+        // $qb->delete()
+        //     ->from('practohealthByteBundle:post', 'p');
+        // $qb->andWhere('p.id =' .$id);
+        // $qb->getQuery()->getArrayResult();
     }
 }
