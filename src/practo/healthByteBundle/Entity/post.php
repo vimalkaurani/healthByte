@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * post
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="practo\healthByteBundle\Entity\postRepository")
+ * @ORM\Table(name="post")
+ * @ORM\Entity
  */
 class post
 {
@@ -70,6 +70,13 @@ class post
      */
     private $publishedDraft;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="soft_deleted", type="integer")
+     */
+    private $softDeleted;
+
 
     /**
      * Get id
@@ -90,6 +97,29 @@ class post
     public function setUserid($userid)
     {
         $this->userid = $userid;
+
+        return $this;
+    }
+
+    /**
+     * Get softDeleted
+     *
+     * @return integer 
+     */
+    public function getSoftDeleted()
+    {
+        return $this->softDeleted;
+    }
+
+    /**
+     * Set softDeleted
+     *
+     * @param integer $softDeleted
+     * @return post
+     */
+    public function setSoftDeleted($softDeleted)
+    {
+        $this->softDeleted = $softDeleted;
 
         return $this;
     }
@@ -181,7 +211,7 @@ class post
      */
     public function setDatePublished($datePublished)
     {
-        $this->datePublished = $datePublished;
+        $this->datePublished = new \DateTime($datePublished);
 
         return $this;
     }
@@ -204,7 +234,7 @@ class post
      */
     public function setDateWritten($dateWritten)
     {
-        $this->dateWritten = $dateWritten;
+        $this->dateWritten = new \DateTime($dateWritten);
 
         return $this;
     }

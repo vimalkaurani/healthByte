@@ -1,4 +1,24 @@
 services:
-#    practohealth_byte.example:
-#        class: practo\healthByteBundle\Example
+#    fit_content.example:
+#        class: Fit\ContentBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+    fit.helper:
+        class: practo\healthByteBundle\Helper\Helper
+        arguments:
+              - @doctrine
+              - @logger
+
+    fit.base_manager:
+        class: practo\healthByteBundle\Manager\BaseManager
+
+    fit.user_manager:
+        class:  practo\healthByteBundle\Manager\UserManager
+        calls:
+               - [setHelper, ["@fit.helper"]]
+
+    fit.post_manager:
+            class:  practo\healthByteBundle\Manager\PostManager
+            calls:
+                   - [setHelper, ["@fit.helper"]]
+
