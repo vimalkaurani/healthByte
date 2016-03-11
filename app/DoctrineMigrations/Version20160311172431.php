@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20160311093650 extends AbstractMigration
+class Version20160311172431 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,7 +18,8 @@ class Version20160311093650 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user CHANGE id id INT AUTO_INCREMENT NOT NULL, ADD PRIMARY KEY (id)');
+        $this->addSql('ALTER TABLE post ADD practo_account_id INT NOT NULL, DROP userid');
+        $this->addSql('ALTER TABLE user ADD practo_account_id INT NOT NULL, ADD soft_deleted INT DEFAULT 0 NOT NULL');
     }
 
     /**
@@ -29,8 +30,7 @@ class Version20160311093650 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user MODIFY id INT NOT NULL');
-        $this->addSql('ALTER TABLE user DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE user CHANGE id id INT NOT NULL');
+        $this->addSql('ALTER TABLE post ADD userid VARCHAR(255) NOT NULL, DROP practo_account_id');
+        $this->addSql('ALTER TABLE user DROP practo_account_id, DROP soft_deleted');
     }
 }

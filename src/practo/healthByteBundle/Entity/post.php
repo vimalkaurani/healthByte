@@ -77,6 +77,16 @@ class post
      */
     private $softDeleted;
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     /**
      * Get practoAccountId

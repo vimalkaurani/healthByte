@@ -13,12 +13,6 @@ use practo\healthByteBundle\Entity\post;
 class PostManager extends BaseManager
 {
 
-
-    function tokenTruncate($string, $width) {
-        
-        return substr($string,0,$width).'...';
-        }
-
     public function getPostObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
@@ -26,12 +20,10 @@ class PostManager extends BaseManager
         $qb->select('u')
             ->from('practohealthByteBundle:post', 'u');
 
-        $inArray = array('id');
+        $inArray = array('id','practoAccountId');
         $likeArray = array('title','publishedDraft');
         foreach($urlParams as $key => $val) {
             if(in_array($key, $inArray)) {
-                
-
                 $qb->andWhere('u.'.$key.' IN (:'.$key.')');
                 $qb ->setParameter($key, $val);
             } elseif (in_array($key, $likeArray)) {
@@ -102,7 +94,6 @@ class PostManager extends BaseManager
         $this->helper->persist($post, true);
         $id = $post->getId();
         $this->helper->flush();
-        //print_r($id);
         return $this->getPostObject(array('id'=>$id));
     }
 
