@@ -11,6 +11,8 @@ namespace practo\healthByteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use practo\healthByteBundle\Controller\BasehealthByteController;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 
 class PostController extends BasehealthByteController
@@ -50,5 +52,34 @@ class PostController extends BasehealthByteController
 
         $data = $this->get('fit.post_manager')->deletePostObject($id);
         return $data;
+    }
+
+    public function uinfAction(Request $request)
+    {
+        $openId = $this->get('healthByte.openid');
+        // $logger = $this->get('logger');
+         $sess = new Session();
+         $sess->set('_openid_consumer_last_token', 'abc');
+         $randomByte = openssl_random_pseudo_bytes(20);
+         $apikey = bin2hex($randomByte);
+        
+         $details = $openId->response();
+
+        $response = json_encode($details);
+        //die("Ss2");
+
+         // $logger->info('user data: '.json_encode($details));
+         // $userDetails = $details['data'];
+         // $practoAccountId = $userDetails['AccountId'];
+         // $requestParams = $request->query->all();
+        // if (array_key_exists('intent', $requestParams) && array_key_exists('redirectTo', $requestParams)) {
+        //     $redirectString = $this->get('fit.login_manager')->updateUserForLogin($practoAccountId, $userDetails, $apikey, $requestParams['intent'], $requestParams['redirectTo']);
+        // } else {
+            
+        //$redirectString = $this->get('fit.login_manager')->updateUserForLogin($practoAccountId, $userDetails, $apikey);
+        // }
+
+        // return $this->redirect($redirectString);
+        return $details;
     }
 }

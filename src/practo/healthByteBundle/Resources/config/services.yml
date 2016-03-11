@@ -22,3 +22,15 @@ services:
             calls:
                    - [setHelper, ["@fit.helper"]]
 
+    fit.fit_domain:
+              class: practo\healthByteBundle\FitDomain
+              scope: request
+              arguments: [@request_stack]
+
+    healthByte.openid:
+          class: practo\healthByteBundle\Utility\Openid
+          arguments:
+            - %memcached_host%
+            - %memcached_port%
+          calls:
+            - [setFitDomain,['@?fit.fit_domain=']]

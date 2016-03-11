@@ -22,6 +22,20 @@ class User
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="practo_account_id", type="integer")
+     */
+    private $practoAccountId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="soft_deleted", type="integer", options={"default" = 0})
+     */
+    private $softDeleted = 0;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -44,6 +58,30 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set practoAccountId.
+     *
+     * @param int $practoAccountId
+     *
+     * @return user
+     */
+    public function setPractoAccountId($practoAccountId)
+    {
+        $this->practoAccountId = $practoAccountId;
+
+        return $this;
+    }
+
+    /**
+     * Get practoAccountId.
+     *
+     * @return int
+     */
+    public function getPractoAccountId()
+    {
+        return $this->practoAccountId;
     }
 
     /**
@@ -91,4 +129,23 @@ class User
     {
         return $this->email;
     }
+
+    /**
+     * @return int
+     */
+    public function getSoftDeleted()
+    {
+        return $this->softDeleted;
+    }
+
+    /**
+     * @param int $softDeleted
+     */
+    public function setSoftDeleted($softDeleted)
+    {
+        $this->softDeleted = $softDeleted;
+    }
+
+
+
 }

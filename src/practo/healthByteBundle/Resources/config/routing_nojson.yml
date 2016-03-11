@@ -1,0 +1,8 @@
+# practohealth_byte_homepage:
+#     type: rest
+#     resource : "@practohealthByteBundle/Controller/DefaultController.php"
+
+practo_login:
+    path: /ulogin
+    defaults: { _controller: practohealthByteBundle:Default:ulogin }
+    methods:  GET

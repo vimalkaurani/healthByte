@@ -22,11 +22,11 @@ class post
     private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="userid", type="string", length=255)
+     * @ORM\Column(name="practo_account_id", type="integer")
      */
-    private $userid;
+    private $practoAccountId;
 
     /**
      * @var string
@@ -79,24 +79,24 @@ class post
 
 
     /**
-     * Get id
+     * Get practoAccountId
      *
      * @return integer 
      */
-    public function getId()
+    public function getPractoAccountId()
     {
         return $this->id;
     }
 
     /**
-     * Set userid
+     * Set practoAccountId
      *
-     * @param string $userid
+     * @param string $practoAccountId
      * @return post
      */
-    public function setUserid($userid)
+    public function setPractoAccountId($practoAccountId)
     {
-        $this->userid = $userid;
+        $this->practoAccountId = $practoAccountId;
 
         return $this;
     }

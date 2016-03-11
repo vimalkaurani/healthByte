@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20160118132244 extends AbstractMigration
+class Version20160311093650 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,7 @@ class Version20160118132244 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE post (id INT AUTO_INCREMENT NOT NULL, userid VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, title LONGTEXT NOT NULL, imgurl LONGTEXT NOT NULL, datePublished DATETIME NOT NULL, dateWritten DATETIME NOT NULL, published_draft VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE user CHANGE id id INT AUTO_INCREMENT NOT NULL, ADD PRIMARY KEY (id)');
     }
 
     /**
@@ -30,7 +29,8 @@ class Version20160118132244 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE post');
-        $this->addSql('DROP TABLE user');
+        $this->addSql('ALTER TABLE user MODIFY id INT NOT NULL');
+        $this->addSql('ALTER TABLE user DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE user CHANGE id id INT NOT NULL');
     }
 }

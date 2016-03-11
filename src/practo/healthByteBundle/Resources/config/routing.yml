@@ -1,7 +1,3 @@
-practohealth_byte_homepage:
-    type: rest
-    resource : "@practohealthByteBundle/Controller/DefaultController.php"
-
 practohealth_byte_user:
     type: rest
     resource : "@practohealthByteBundle/Controller/UserController.php"

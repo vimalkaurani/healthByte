@@ -47,13 +47,16 @@ class PostManager extends BaseManager
             $qb-> andWhere('u.softDeleted = 0');
         } 
 
+        // $count=$qb->getQuery()->getSingleScalarResult();
+        // echo $count;
         $qb->orderBy('u.dateWritten', 'DESC');
         if(array_key_exists('pageno', $urlParams)){
            $qb->setMaxResults(10);
             $qb->setFirstResult(10 * ($urlParams['pageno']-1));
         }
 
-
+        $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($qb);
+        $totalRows = count($paginator);
         $data = $qb->getQuery()->getArrayResult();
 
          foreach ($data as $key => $value) {
@@ -66,9 +69,9 @@ class PostManager extends BaseManager
                  $data[$key]['exp']=$value['content'];
              }
 
-            if(strlen($value['title']) > 50){
+            if(strlen($value['title']) > 40){
                 
-                $data[$key]['ttl']= $this->tokenTruncate($value['title'],50);
+                $data[$key]['ttl']= $this->tokenTruncate($value['title'],40);
             }
         
              else {
@@ -76,7 +79,9 @@ class PostManager extends BaseManager
              }
          }
 
-        return $data;
+         $result['data'] = $data;
+        $result['totalCount'] = $totalRows;
+        return $result;
     }
 
     
