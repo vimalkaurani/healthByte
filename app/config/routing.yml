@@ -3,3 +3,7 @@ fit_content:
     prefix:   /
     type:     rest
 
+fit_non_json:
+    resource: "@practohealthByteBundle/Resources/config/routing_nojson.yml"
+    prefix:   /
+

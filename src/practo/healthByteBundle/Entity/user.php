@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * user
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="practo\healthByteBundle\Entity\userRepository")
+ * @ORM\Table(name="user")
+ * @ORM\Entity
  */
 class user
 {
@@ -20,6 +20,13 @@ class user
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="practo_account_id", type="integer")
+     */
+    private $practoAccountId;
 
     /**
      * @var string
@@ -35,6 +42,13 @@ class user
      */
     private $email;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="soft_deleted", type="integer", options={"default" = 0})
+     */
+    private $softDeleted = 0;
+
 
     /**
      * Get id
@@ -44,6 +58,28 @@ class user
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set practoAccountId.
+     *
+     * @param int $practoAccountId
+     *
+     * @return user
+     */
+    public function setPractoAccountId($practoAccountId)
+    {
+        $this->practoAccountId = $practoAccountId;
+        return $this;
+    }
+    /**
+     * Get practoAccountId.
+     *
+     * @return int
+     */
+    public function getPractoAccountId()
+    {
+        return $this->practoAccountId;
     }
 
     /**
@@ -90,5 +126,20 @@ class user
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSoftDeleted()
+    {
+        return $this->softDeleted;
+    }
+    /**
+     * @param int $softDeleted
+     */
+    public function setSoftDeleted($softDeleted)
+    {
+        $this->softDeleted = $softDeleted;
     }
 }

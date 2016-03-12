@@ -11,6 +11,9 @@ namespace practo\healthByteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use practo\healthByteBundle\Controller\BasehealthByteController;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Fit\ContentBundle\FitDomain;
+
 
 
 class PostController extends BasehealthByteController
@@ -50,5 +53,19 @@ class PostController extends BasehealthByteController
 
         $data = $this->get('fit.post_manager')->deletePostObject($id);
         return $data;
+    }
+
+    public function uinfAction(Request $request)
+    {
+        $openId = $this->get('healthByte.openid');
+        $sess = new Session();
+        $sess->set('_openid_consumer_last_token', 'abc');
+        $details = $openId->response();
+        $user['practoAccountId'] = $details['data']['AccountId'];
+        $user['name'] = $details['data']['FullName'];
+        $user['email'] = $details['data']['UserEmail'];
+        $this->get('fit.user_manager')->addUserObject($user);
+        $redirectString = '/#!/login?uid='.$user['practoAccountId'];
+        return $this->redirect($redirectString);
     }
 }
