@@ -25,7 +25,7 @@ class UserManager extends BaseManager
         $em = $this->helper->getEntitiesManager();
         $qb = $em->createQueryBuilder();
         $qb->select('u')
-            ->from('practohealthByteBundle:User', 'u');
+            ->from('practohealthByteBundle:user', 'u');
 
         foreach($urlParams as $key => $val) {
             $qb->andWhere('u.'.$key.' LIKE :'.$key);
@@ -62,7 +62,7 @@ class UserManager extends BaseManager
 
     public function patchUserObject($id, $urlParams = null){
 
-        $user = $this->helper->loadById($id, 'practohealthByteBundle:User');
+        $user = $this->helper->loadById($id, 'practohealthByteBundle:user');
 
         if (null === $user) {
             throw new \Exception('user with this id does not exist');
@@ -84,7 +84,7 @@ class UserManager extends BaseManager
         $em = $this->helper->getEntitiesManager();
         $qb = $em->createQueryBuilder();
         $qb->delete()
-            ->from('practohealthByteBundle:User', 'u');
+            ->from('practohealthByteBundle:user', 'u');
         $qb->andWhere('u.id =' .$id);
         $qb->getQuery()->getArrayResult();
     }

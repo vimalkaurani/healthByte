@@ -13,6 +13,10 @@ use practo\healthByteBundle\Entity\post;
 class PostManager extends BaseManager
 {
 
+    function tokenTruncate($string, $width) {       
+              
+        return substr($string,0,$width).'...';        
+    }
     public function getPostObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
@@ -88,7 +92,7 @@ class PostManager extends BaseManager
                 $post->$methodName($urlParams[$key]);
             }
             else {
-                return array('error_message' => 'something is wrong');
+                return array('error_message' => 'Please submit title and content');
             }
         }
         $this->helper->persist($post, true);
