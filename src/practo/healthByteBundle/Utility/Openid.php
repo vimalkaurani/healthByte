@@ -63,7 +63,7 @@ class Openid
     {
         $consumer = $this->getConsumer();
         $fitHost = $this->fitDomain->getHost();
-        $accountsHost = 'http://accounts.practo.com';
+        $accountsHost = $this->fitDomain->getHost('accounts');
         $trustRoot = $fitHost;
 
         // Begin the OpenID authentication process.
