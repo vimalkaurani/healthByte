@@ -13,12 +13,10 @@ use practo\healthByteBundle\Entity\post;
 class PostManager extends BaseManager
 {
 
-
-    function tokenTruncate($string, $width) {
-        
-        return substr($string,0,$width).'...';
-        }
-
+    function tokenTruncate($string, $width) {       
+              
+        return substr($string,0,$width).'...';        
+    }
     public function getPostObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
@@ -26,12 +24,10 @@ class PostManager extends BaseManager
         $qb->select('u')
             ->from('practohealthByteBundle:post', 'u');
 
-        $inArray = array('id');
+        $inArray = array('id','practoAccountId');
         $likeArray = array('title','publishedDraft');
         foreach($urlParams as $key => $val) {
             if(in_array($key, $inArray)) {
-                
-
                 $qb->andWhere('u.'.$key.' IN (:'.$key.')');
                 $qb ->setParameter($key, $val);
             } elseif (in_array($key, $likeArray)) {
@@ -47,13 +43,16 @@ class PostManager extends BaseManager
             $qb-> andWhere('u.softDeleted = 0');
         } 
 
+        // $count=$qb->getQuery()->getSingleScalarResult();
+        // echo $count;
         $qb->orderBy('u.dateWritten', 'DESC');
         if(array_key_exists('pageno', $urlParams)){
            $qb->setMaxResults(10);
             $qb->setFirstResult(10 * ($urlParams['pageno']-1));
         }
 
-
+        $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($qb);
+        $totalRows = count($paginator);
         $data = $qb->getQuery()->getArrayResult();
 
          foreach ($data as $key => $value) {
@@ -66,9 +65,9 @@ class PostManager extends BaseManager
                  $data[$key]['exp']=$value['content'];
              }
 
-            if(strlen($value['title']) > 50){
+            if(strlen($value['title']) > 40){
                 
-                $data[$key]['ttl']= $this->tokenTruncate($value['title'],50);
+                $data[$key]['ttl']= $this->tokenTruncate($value['title'],40);
             }
         
              else {
@@ -76,7 +75,9 @@ class PostManager extends BaseManager
              }
          }
 
-        return $data;
+         $result['data'] = $data;
+        $result['totalCount'] = $totalRows;
+        return $result;
     }
 
     
@@ -91,13 +92,12 @@ class PostManager extends BaseManager
                 $post->$methodName($urlParams[$key]);
             }
             else {
-                return array('error_message' => 'something is wrong');
+                return array('error_message' => 'Please submit title and content');
             }
         }
         $this->helper->persist($post, true);
         $id = $post->getId();
         $this->helper->flush();
-        //print_r($id);
         return $this->getPostObject(array('id'=>$id));
     }
 
