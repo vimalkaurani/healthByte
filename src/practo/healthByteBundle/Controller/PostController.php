@@ -65,7 +65,7 @@ class PostController extends BasehealthByteController
         $user['name'] = $details['data']['FullName'];
         $user['email'] = $details['data']['UserEmail'];
         $this->get('fit.user_manager')->addUserObject($user);
-        $redirectString = '/#!/login?uid='.$user['practoAccountId'];
+        $redirectString = '/#!/login?uid='.$user['practoAccountId'].'&name='.$user['name'];
         return $this->redirect($redirectString);
     }
 }

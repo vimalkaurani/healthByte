@@ -24,8 +24,7 @@ class DefaultController extends Controller
         $requestParams = $request->query->all();
         $openId = $this->get('healthByte.openid');
         $requestForm = $openId->requestForm();
-
+        
        	return new Response($requestForm);
-    }
-    
+    } 
 }
