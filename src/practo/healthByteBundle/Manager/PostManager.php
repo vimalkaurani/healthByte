@@ -13,10 +13,11 @@ use practo\healthByteBundle\Entity\post;
 class PostManager extends BaseManager
 {
 
-    function tokenTruncate($string, $width) {       
-              
+    public function tokenTruncate($string, $width) {       
+               
         return substr($string,0,$width).'...';        
     }
+
     public function getPostObject($urlParams = null)
     {
         $em = $this->helper->getEntitiesManager();
